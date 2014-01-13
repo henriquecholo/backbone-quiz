@@ -1,16 +1,22 @@
-var Router = Backbone.Router.extend({
-	routes: {
-		"": "home"
-	}
-});
+define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
+        'quizView', 'emailView'], 
+	
+	function($, Backbone, _, Marionette, Bootstrap, QuizView, EmailView){
 
-/*Old Example
-var emailAndPassword = new EmailAndPassword();
-
-var router = new Router;
-router.on('route:home', function() {
-  emailAndPassword.render();
-})
-*/
-
-Backbone.history.start();
+        var Router = Backbone.Router.extend({
+            initialize: function() {
+                Backbone.history.start();
+            },
+            routes: {
+                "": "index"
+            },
+            index: function() {
+                var quizView = new QuizView();
+                quizView.render();
+                var emailView = new EmailView();
+                emailView.render();
+            }
+        });
+        return Router;
+    }
+);

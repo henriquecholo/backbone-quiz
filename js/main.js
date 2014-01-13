@@ -7,8 +7,10 @@
 			marionette: 	"libraries/backbone.marionette",
 			router: 		"router",
 			emailView: 		"views/emailView",
+			emailModel: 	"models/emailModel",
 			quizView: 		"views/quizView",
-			quizCollection: "colections/quizCollection"
+			quizCollection: "collections/quizCollection",
+			quizModel: 		"models/quizModel"
 		},
 		shim = {
 	        'bootstrap': 
@@ -29,35 +31,16 @@
 	        'underscore': 
 	        {
 	            exports: '_'
-	        },
-	        'router': 
-	        {
-	        	deps:['marionette'],
-	            exports: 'Router'
-	        },
-	        'emailView': 
-	        {
-	        	deps:['marionette'],
-	            exports: 'EmailView'
-	        },
-	        'quizView': 
-	        {
-	        	deps:['quizCollection'],
-	            exports: 'QuizView'
-	        },
-	        'quizCollection': 
-	        {
-	        	deps:['marionette'],
-	            exports: 'QuizCollection'
 	        }
 		},
 		dependencies = 
 			['jquery', 'backbone', 'underscore', 'bootstrap', 'marionette', 'router'],
-		factory = function($, Backbone) {
-			
+		factory = function($, Backbone, _, Bootstrap, Marionette, Router) {
+			new Router().initialize();
 		};
 	
-	require.config({ 
+	require.config({
+		baseUrl: 'js',
 		paths: paths,
 		shim: shim
 	});
@@ -65,15 +48,21 @@
 	//load libraries dependencies
 	require(dependencies, factory);
 	
+	//Load Models
+	var modelDependencies = [],
+		modelFactory = function(QuizModel, EmailModel){
+	};
+	require(modelDependencies, modelFactory);
+
 	//Load Views
-	var viewDependencies = ['views/emailView', 'views/quizView'],
-		viewFactory = function(emailView, quizView){
+	var viewDependencies = ['emailView', 'quizView'],
+		viewFactory = function(EmailView, QuizView){
 	};
 	require(viewDependencies, viewFactory);
 
 	//Load Collections
-	var collectionDependencies = ['collections/quizCollection'],
-		collectionFactory = function(quizCollection){
+	var collectionDependencies = ['quizCollection'],
+		collectionFactory = function(QuizCollection){
 	};
 	require(collectionDependencies, collectionFactory);
 

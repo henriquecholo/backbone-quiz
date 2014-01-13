@@ -1,1 +1,0 @@
-<script type="text/template" id="quiz-template"></script>
