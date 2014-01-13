@@ -5,6 +5,7 @@
 			underscore: 	"libraries/underscore",
 			bootstrap: 		"libraries/bootstrap",
 			marionette: 	"libraries/backbone.marionette",
+			localStorage: 	"libraries/backbone.localStorage",
 			router: 		"router",
 			emailView: 		"views/emailView",
 			emailModel: 	"models/emailModel",
@@ -13,43 +14,56 @@
 			quizModel: 		"models/quizModel"
 		},
 		shim = {
-	        'bootstrap': 
+	        'bootstrap':
 	        {
 	            deps: ['jquery'],
 	            exports: 'Bootstrap'
 	        },
-	        'backbone': 
+	        'backbone':
 			{
 	            deps: ['underscore', 'jquery'],
 	            exports: 'Backbone'
 	        },
-	        'marionette': 
+	        'localStorage':
+			{
+	            deps: ['backbone'],
+	            exports: 'LocalStorage'
+	        },
+	        'marionette':
 			{
 	            deps: ['underscore', 'jquery', 'backbone'],
 	            exports: 'Marionette'
 	        },
-	        'underscore': 
+	        'underscore':
 	        {
 	            exports: '_'
 	        }
 		},
-		dependencies = 
-			['jquery', 'backbone', 'underscore', 'bootstrap', 'marionette', 'router'],
-		factory = function($, Backbone, _, Bootstrap, Marionette, Router) {
-			new Router().initialize();
+		dependencies =
+			['jquery', 'backbone', 'localStorage', 'underscore', 'bootstrap', 'marionette', 'router'],
+		factory = function($, Backbone, LocalStorage, _, Bootstrap, Marionette, Router) {
+		},
+		config = {
+		    text: {
+		      useXhr: function (url, protocol, hostname, port) {
+		        // allow cross-domain requests
+		        return true;
+		      }
+		    }
 		};
-	
+
 	require.config({
 		baseUrl: 'js',
 		paths: paths,
-		shim: shim
+		shim: shim,
+		config: config
 	});
 
 	//load libraries dependencies
 	require(dependencies, factory);
-	
+
 	//Load Models
-	var modelDependencies = [],
+	var modelDependencies = ['quizModel', 'emailModel'],
 		modelFactory = function(QuizModel, EmailModel){
 	};
 	require(modelDependencies, modelFactory);
@@ -57,12 +71,15 @@
 	//Load Views
 	var viewDependencies = ['emailView', 'quizView'],
 		viewFactory = function(EmailView, QuizView){
+			new EmailView;
+			new QuizView;
 	};
 	require(viewDependencies, viewFactory);
 
 	//Load Collections
 	var collectionDependencies = ['quizCollection'],
 		collectionFactory = function(QuizCollection){
+			//new QuizCollection;
 	};
 	require(collectionDependencies, collectionFactory);
 

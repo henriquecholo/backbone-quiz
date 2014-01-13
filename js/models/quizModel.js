@@ -1,7 +1,7 @@
-define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap'], 
+define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap'],
 
 	function($, Backbone, _, Marionette, Bootstrap){
-		var quizModel = Backbone.Model.extend({
+		var QuizModel = Backbone.Model.extend({
 	    	defaults: {
 		      question: "",
 		      option1: "",
@@ -18,6 +18,6 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap'],
 		      }
 		    }
 	    });
-	    return quizModel;
+	    return QuizModel;
 	}
 );

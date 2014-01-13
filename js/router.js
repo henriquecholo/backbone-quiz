@@ -1,6 +1,6 @@
 define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
-        'quizView', 'emailView'], 
-	
+        'quizView', 'emailView'],
+
 	function($, Backbone, _, Marionette, Bootstrap, QuizView, EmailView){
 
         var Router = Backbone.Router.extend({
@@ -11,10 +11,6 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
                 "": "index"
             },
             index: function() {
-                var quizView = new QuizView();
-                quizView.render();
-                var emailView = new EmailView();
-                emailView.render();
             }
         });
         return Router;

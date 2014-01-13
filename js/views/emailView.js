@@ -1,38 +1,39 @@
 define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
-		'text!templates/emailTemplate.html'],
+		'text!templates/emailTemplate.html', 'emailModel'],
 
-	function($, Backbone, _, Marionette, Bootstrap, Template){
-	    var emailView = Backbone.View.extend({
+	function($, Backbone, _, Marionette, Bootstrap, Template, EmailModel){
+	    var EmailView = Backbone.View.extend({
 	    	initialize: function(){
+	    		this.model = new EmailModel();
 	            this.render();
 	        },
-	    	el: '#emailForm',
+	    	el: '#email',
 	       	template: _.template(Template),
 	       	render: function(){
-	        	this.$el.html(this.template($('#email-template').html()));
-	        	return this;
+	        	this.$el.html(this.template(this.model.toJSON()));
+	       	},
+	       	events: {
+	       		submit: 'save'
+	       	},
+	       	save: function(e) {
+	       		e.preventDefault();
+	       		var emailText = this.$('#inputEmail').val();
+	       		var passwordText = this.$('#inputPassword').val();
+	       		if(emailText === "" && passwordText === ""){
+					alert("Please provide the email and password!");
+	       		}
+	       		else if(emailText === "") {
+	       			alert("Please provide the email!");
+	       		}
+	       		else if(passwordText === "") {
+	       			alert("Please provide the password!");
+	       		}
+	       		else {
+	       			this.model.save({email: emailText, password: passwordText, completed: true});
+	       		}
 	       	}
-	 
 	    });
-
-	    $('.list-group-item').on('click', function(e){
-			if($(this).hasClass('active')) {
-		        $(this).removeClass('active');
-			}
-			else {
-				var activesItems = $(this).parent().children('.active');
-				var listGroupActive = activesItems ? activesItems.length : 0;
-				if(listGroupActive >= 3){
-					alert("Can only select 3 options.");
-				}
-				else {
-					$(this).addClass('active');
-				}
-			}
-			e.preventDefault();
-		});
-
-	    return emailView;
+	    return EmailView;
 	}
 );
 
