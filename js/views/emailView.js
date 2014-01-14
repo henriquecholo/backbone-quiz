@@ -1,7 +1,7 @@
 define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
-		'text!templates/emailTemplate.html', 'emailModel'],
+		'text!templates/emailTemplate.html', 'emailModel', 'quizView'],
 
-	function($, Backbone, _, Marionette, Bootstrap, Template, EmailModel){
+	function($, Backbone, _, Marionette, Bootstrap, Template, EmailModel, QuizView){
 	    var EmailView = Backbone.View.extend({
 	    	initialize: function(){
 	    		this.model = new EmailModel();
@@ -29,7 +29,15 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
 	       			alert("Please provide the password!");
 	       		}
 	       		else {
+	       			localStorage.clear();
 	       			this.model.save({email: emailText, password: passwordText, completed: true});
+	       			this.$('#inputEmail').attr('disabled', true);
+	       			this.$('#inputPassword').attr('disabled', true);
+	       			this.$('#signIn').attr('disabled', true);
+	       			var label = document.createElement("label");
+				    label.textContent = "Email and password saved on localStorage.";
+				    this.$('#signInForm').append(label);
+				    new QuizView;
 	       		}
 	       	}
 	    });

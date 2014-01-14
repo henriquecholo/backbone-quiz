@@ -72,14 +72,12 @@
 	var viewDependencies = ['emailView', 'quizView'],
 		viewFactory = function(EmailView, QuizView){
 			new EmailView;
-			new QuizView;
 	};
 	require(viewDependencies, viewFactory);
 
 	//Load Collections
 	var collectionDependencies = ['quizCollection'],
 		collectionFactory = function(QuizCollection){
-			//new QuizCollection;
 	};
 	require(collectionDependencies, collectionFactory);
 

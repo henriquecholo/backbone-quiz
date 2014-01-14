@@ -1,20 +1,20 @@
-<% _.each(this, function (object) { %>
+<% _.each(collection, function (object) { %>
 <form class="form-horizontal" role="form">
     <div class="form-group">
-        <label for="labelAsk" class="col-sm-offset-1 col-sm-1">Ask:</label>
+        <label for="labelAsk" class="col-sm-offset-1 col-sm-1">Question <%= object.id %>:</label>
         <div class="col-sm-3">
-          <label type="question" id="labelQuestion"><%= object.question %></label>
+          <label type="question" id="labelQuestion<%= object.id %>"><%= object.question %></label>
         </div>
       </div>
       <div class="form-group">
         <label for="inputAnswer" class="col-sm-offset-1 col-sm-1">Answer:</label>
         <div class="col-sm-3">
             <div class="list-group">
-              <a href="#" class="list-group-item"><% object.option1 %></a>
-              <a href="#" class="list-group-item"><% object.option2 %></a>
-              <a href="#" class="list-group-item"><% object.option3 %></a>
-              <a href="#" class="list-group-item"><% object.option4 %></a>
-              <a href="#" class="list-group-item"><% object.option5 %></a>
+              <a href="#" class="list-group-item" id="option1-<%= object.id %>"><%= object.option1 %></a>
+              <a href="#" class="list-group-item" id="option2-<%= object.id %>"><%= object.option2 %></a>
+              <a href="#" class="list-group-item" id="option3-<%= object.id %>"><%= object.option3 %></a>
+              <a href="#" class="list-group-item" id="option4-<%= object.id %>"><%= object.option4 %></a>
+              <a href="#" class="list-group-item" id="option5-<%= object.id %>"><%= object.option5 %></a>
             </div>
         </div>
       </div>
