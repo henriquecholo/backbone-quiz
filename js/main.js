@@ -1,17 +1,20 @@
 (function(){
 	var paths = {
-			jquery: 		"libraries/jquery-2.0.3",
-			backbone: 		"libraries/backbone",
-			underscore: 	"libraries/underscore",
-			bootstrap: 		"libraries/bootstrap",
-			marionette: 	"libraries/backbone.marionette",
-			localStorage: 	"libraries/backbone.localStorage",
-			router: 		"router",
-			emailView: 		"views/emailView",
-			emailModel: 	"models/emailModel",
-			quizView: 		"views/quizView",
-			quizCollection: "collections/quizCollection",
-			quizModel: 		"models/quizModel"
+			jquery: 		 "libraries/jquery-2.0.3",
+			backbone: 		 "libraries/backbone",
+			underscore: 	 "libraries/underscore",
+			bootstrap: 		 "libraries/bootstrap",
+			marionette: 	 "libraries/backbone.marionette",
+			localStorage: 	 "libraries/backbone.localStorage",
+			router: 		 "router",
+			emailView: 		 "views/emailView",
+			emailModel: 	 "models/emailModel",
+			quizView: 		 "views/quizView",
+			quizCollection:  "collections/quizCollection",
+			quizModel: 		 "models/quizModel",
+			resultView: 	 "views/resultView",
+        	answerModel: 	 "models/answerModel",
+        	answerCollection:"collections/answerCollection"
 		},
 		shim = {
 	        'bootstrap':
@@ -59,26 +62,12 @@
 		config: config
 	});
 
-	//load libraries dependencies
-	require(dependencies, factory);
-
-	//Load Models
-	var modelDependencies = ['quizModel', 'emailModel'],
-		modelFactory = function(QuizModel, EmailModel){
-	};
-	require(modelDependencies, modelFactory);
-
-	//Load Views
-	var viewDependencies = ['emailView', 'quizView'],
-		viewFactory = function(EmailView, QuizView){
-			new EmailView;
-	};
-	require(viewDependencies, viewFactory);
-
-	//Load Collections
-	var collectionDependencies = ['quizCollection'],
-		collectionFactory = function(QuizCollection){
-	};
-	require(collectionDependencies, collectionFactory);
+	require([
+	    'backbone',
+	    'routes/app'
+	], function (Backbone, AppRouter) {
+	    new AppRouter;
+	    Backbone.history.start({ pushState: true });
+	});
 
 })();

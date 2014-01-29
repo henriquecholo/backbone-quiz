@@ -10,7 +10,9 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap'],
 		      option4: "",
 		      option5: "",
 		      timestamp: 0,
-		      completed: false
+		      completed: false,
+	          answersFromUser: [],
+	          correctPercentage: 0
 		    },
 		    validate: function(attrs) {
 		      if ( _.isEmpty(attrs.question) ) {

@@ -54,8 +54,16 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
 				}
 	       	},
 	       	submitQuiz: function (e) {
-	       		e.preventDefault();
-	       		alert("Submitting");
+	       		this.collection.each(function(model) {
+	                var option1 = $('#option1-' + model.id).hasClass('active');
+	                var option2 = $('#option2-' + model.id).hasClass('active');
+	                var option3 = $('#option3-' + model.id).hasClass('active');
+	                var option4 = $('#option4-' + model.id).hasClass('active');
+	                var option5 = $('#option5-' + model.id).hasClass('active');
+	                model.set( {answersByUser: [option1, option2, option3, option4, option5]});
+	                model.save();
+	            });
+	            Backbone.history.navigate('/result', { trigger: true });
 	       	}
 	    });
 	    return QuizView;
