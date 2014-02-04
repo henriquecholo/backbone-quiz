@@ -1,14 +1,16 @@
-<% _.each(collection, function (object) { %>
-<span id="answerQuestion{{id}}">Question <%= object.id %> - <%= object.question %></span>
-<div class="progress">
-  <div class="progress-bar progress-bar" role="progressbar" aria-valuenow="<%= object.correctPercentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= object.correctPercentage %>%">
-    <span><%= object.correctPercentage %>%</span>
-  </div>
-</div>
-<% }); %>
-<label>Average Rate</label>
-<div class="progress progress-striped active">
-  <div class="progress-bar progress-bar" role="progressbar" aria-valuenow="<%= AverageRate %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= AverageRate %>%">
-    <span><%= AverageRate %>%</span>
-  </div>
-</div>
+<form class="form-horizontal" role="form" style="max-width:900px; margin-left: 100px;">
+    <% _.each(collection, function (object) { %>
+    <span id="answerQuestion{{id}}">Question <%= object.id %> - <%= object.question %></span>
+    <div class="progress">
+      <div class="progress-bar progress-bar" role="progressbar" aria-valuenow="<%= object.correctPercentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= object.correctPercentage %>%">
+        <span><%= object.correctPercentage %>%</span>
+      </div>
+    </div>
+    <% }); %>
+    <label>Average Rate</label>
+    <div class="progress progress-striped active">
+      <div class="progress-bar progress-bar" role="progressbar" aria-valuenow="<%= AverageRate %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= AverageRate %>%">
+        <span><%= AverageRate %>%</span>
+      </div>
+    </div>
+</form>

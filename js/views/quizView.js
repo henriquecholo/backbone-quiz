@@ -4,33 +4,25 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
 	function($, Backbone, _, Marionette, Bootstrap, QuizCollection, Template){
 	    var QuizView = Backbone.View.extend({
 	    	initialize: function(){
-	            this.collection = new QuizCollection();
-	            var collection = this.collection,
-	            	self = this;
-				collection.refreshFromServer({success: function(freshData) {
-				    collection.reset(freshData);
-				    var count = 1;
-				    collection.each(function(model) {
-				    	model.set({id: count});
-				        model.save();
-				        count++;
-				    });
-				    collection.fetch();
-				}}).done(function() {
-					self.render(collection);
-					self.$el.append("<div id='submitDiv' class='col-sm-offset-4'></div>");
-				    var button = document.createElement("button");
-				    button.id = 'submitQuiz';
-				    button.textContent = "Submit Quiz";
-				    $('#submitDiv').append(button);
-				    $('#submitQuiz').addClass("btn btn-primary");
-				    $('#submitQuiz').css({"margin-left":"40px"});
-				});
+	            var self = this;
+	            this.collection.refreshFromServer({success: function(freshData) {
+	                self.collection.reset(freshData);
+	                var count = 1;
+	                self.collection.each(function(model) {
+	                    model.set({id: count});
+	                    model.save();
+	                    count++;
+	                });
+	                self.collection.fetch();
+	            }, error: function(){
+	                console.log('Error on refreshFromServer ajax call');
+	            }}).done(function() {
+	                self.render();
+	            });
 	        },
-	    	el: '#quiz',
 	       	template: _.template(Template),
-	       	render: function(collection){
-	       		this.$el.html(this.template({collection: collection.toJSON()}));
+	       	render: function(){
+	       		this.$el.html(this.template({collection: this.collection.toJSON()}));
 	       	},
 	       	events: {
 	       		"click .list-group-item": 'checkActiveAnswers',
@@ -60,7 +52,7 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
 	                var option3 = $('#option3-' + model.id).hasClass('active');
 	                var option4 = $('#option4-' + model.id).hasClass('active');
 	                var option5 = $('#option5-' + model.id).hasClass('active');
-	                model.set( {answersByUser: [option1, option2, option3, option4, option5]});
+	                model.set( {answersFromUser: [option1, option2, option3, option4, option5]});
 	                model.save();
 	            });
 	            Backbone.history.navigate('/result', { trigger: true });

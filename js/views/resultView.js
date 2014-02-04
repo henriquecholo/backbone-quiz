@@ -5,21 +5,18 @@ function ($, _, Backbone, Template, AnswerCollection) {
     var ResultView = Backbone.View.extend({
         template: _.template(Template),
         initialize: function(){
-            this.quizCollection = new Backbone.LocalStorage("QuizCollection");
-            this.answerCollection = new AnswerCollection();
-            var answerCollection = this.answerCollection,
-                quizCollection = this.quizCollection,
-                self = this;
-            answerCollection.refreshFromServer({success: function(freshData) {
-                answerCollection.reset(freshData);
+            var self = this,
+                answerCollection = new AnswerCollection(),
+                quizAmount = 0;
+            this.answerCollection = answerCollection;
+            this.answerCollection.refreshFromServer({success: function(freshData) {
+                self.answerCollection.reset(freshData);
             }, error: function(){
-                console.log("Error on refreshFromServer ajax call");
+                console.log('Error on refreshFromServer ajax call');
             }}).done(function() {
-                var quizAmount = 0;
-                answerCollection.each(function(answerModel) {
-                    var quizModel = quizCollection.find({id: answerModel.attributes.question});
+                self.answerCollection.each(function(answerModel) {
+                    var quizModel = self.collection.find({id: answerModel.attributes.question});
                     var index = 0,
-                        optionString = '',
                         rightFromUser = 0;
                     while(index < 5) {
                         if(quizModel.answersFromUser[index] === answerModel.values()[index + 1]) {
@@ -29,14 +26,13 @@ function ($, _, Backbone, Template, AnswerCollection) {
                     }
                     quizModel.correctPercentage = (100 * rightFromUser) / 5;
                     quizAmount += quizModel.correctPercentage;
-                    localStorage.setItem("QuizCollection-" + answerModel.attributes.question, JSON.stringify(quizModel));
+                    localStorage.setItem('QuizCollection-' + answerModel.attributes.question, JSON.stringify(quizModel));
                 });
-                self.render(quizCollection, quizAmount / quizCollection.records.length);
+                self.render(quizAmount / self.collection.records.length);
             });
         },
-        el: '#result',
-        render: function(collection, averageRate){
-            this.$el.html(this.template({collection: collection.findAll(), AverageRate: averageRate}));
+        render: function(averageRate){
+            this.$el.html(this.template({collection: this.collection.findAll(), AverageRate: averageRate}));
         },
     });
 

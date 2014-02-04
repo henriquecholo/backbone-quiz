@@ -1,5 +1,5 @@
-define(['jquery', 'backbone', 'emailView', 'resultView', 'quizView'
-], function ($, Backbone, EmailView, ResultView, QuizView) {
+define(['jquery', 'backbone', 'controllers/email', 'controllers/result', 'controllers/quiz'
+], function ($, Backbone, EmailController, ResultController, QuizController) {
 
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -8,22 +8,27 @@ define(['jquery', 'backbone', 'emailView', 'resultView', 'quizView'
             'result' : 'result'
         },
         index: function () {
-            new EmailView;
-            $('#quiz').hide();
-            $('#result').hide();
-            $('#email').show();
+            this.render(EmailController.action());
         },
         quizz: function () {
-            new QuizView;
-            $('#email').hide();
-            $('#result').hide();
-            $('#quiz').show();
+            this.render(QuizController.action());
         },
         result: function () {
-            new ResultView;
-            $('#email').hide();
-            $('#result').show();
-            $('#quiz').hide();
+            this.render(ResultController.action());
+        },
+
+        render: function(view) {
+            if (this.currentView) {
+                this.currentView.remove();
+            }
+            if (view) {
+                this.currentView = view;
+                view.render();
+                $('#content').html(view.el);
+            }
+            else {
+                this.navigate('', { trigger:true });
+            }
         }
     });
 

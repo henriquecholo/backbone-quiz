@@ -3,11 +3,6 @@ define(['jquery', 'backbone', 'underscore', 'marionette', 'bootstrap',
 
 	function($, Backbone, _, Marionette, Bootstrap, Template, EmailModel, QuizView){
 	    var EmailView = Backbone.View.extend({
-	    	initialize: function(){
-	    		this.model = new EmailModel();
-	            this.render();
-	        },
-	    	el: '#email',
 	       	template: _.template(Template),
 	       	render: function(){
 	        	this.$el.html(this.template(this.model.toJSON()));
